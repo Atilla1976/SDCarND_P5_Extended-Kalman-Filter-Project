@@ -21,8 +21,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
   // check the validity of the following inputs:
   //  * the estimation vector size should not be zero
   //  * the estimation vector size should equal ground truth vector size
-  if (estimations.size() != ground_truth.size()
-      || estimations.size() == 0) {
+  if (estimations.size() != ground_truth.size() || estimations.size() == 0) {
     cout << "Invalid estimation or ground_truth data" << endl;
     return rmse;
   }
@@ -74,8 +73,8 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 
 	//Computing the J.matrix
 	Hj << px/c2, py/c2, 0, 0,
-		    -(py/c1), (px/c1), 0, 0,
-		    py*(vx*py-vy*px)/c3, px*(px*vy-py*vx)/c3, px/c2, py/c2;
+	      -(py/c1), (px/c1), 0, 0,
+	      py*(vx*py-vy*px)/c3, px*(px*vy-py*vx)/c3, px/c2, py/c2;
   
   return Hj;
 }
