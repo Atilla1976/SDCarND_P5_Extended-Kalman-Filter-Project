@@ -4,6 +4,8 @@
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
 using std::vector;
+using std::cout;
+using std::endl;
 
 Tools::Tools() {}
 
@@ -12,16 +14,16 @@ Tools::~Tools() {}
 VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
                               const vector<VectorXd> &ground_truth) {
   /**
-   * TODO: Calculate the RMSE here.
+   * Calculating the RMSE here.
    */
-  
   VectorXd rmse(4);
-  rmse << 0, 0, 0, 0;
-  
+  rmse << 0,0,0,0;
+
   // check the validity of the following inputs:
   //  * the estimation vector size should not be zero
   //  * the estimation vector size should equal ground truth vector size
-  if (estimations.size() != ground_truth.size() || estimations.size() == 0) {
+  if (estimations.size() != ground_truth.size()
+      || estimations.size() == 0) {
     cout << "Invalid estimation or ground_truth data" << endl;
     return rmse;
   }
@@ -43,38 +45,36 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
   rmse = rmse.array().sqrt();
 
   // return the result
-  return rmse;  
+  return rmse;
 }
 
 MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   /**
-   * TODO:
-   * Calculate a Jacobian here.
+   * Calculating e a Jacobian here.
    */
   
-  MatrixXd  Hj(3,4);
+  MatrixXd Hj(3,4);
+  // recover state parameters
+  float px = x_state(0);
+  float py = x_state(1);
+  float vx = x_state(2);
+  float vy = x_state(3);
 
-	//State parameters
-	float px = x_state(0);
-	float py = x_state(1);
-	float vx = x_state(2);
-	float vy = x_state(3);
+  // pre-compute a set of terms to avoid repeated calculation
+  float c1 = px*px+py*py;
+  float c2 = sqrt(c1);
+  float c3 = (c1*c2);
 
-	//The equations for the J.matrix
-	float c1 = px*px + py*py;
-	float c2 = sqrt(c1);
-	float c3 = c1*c2;
-	
-	//Division control (whether it's zero)
-	if (c1 < 0.0001){
-    std::cout << "CalculateJacobian - Error Division by Zero!" << std::endl;
-		c1 += 0.001;
-	}
-
-	//Computing the J.matrix
-	Hj << px/c2, py/c2, 0, 0,
-	      -(py/c1), (px/c1), 0, 0,
-	      py*(vx*py-vy*px)/c3, px*(px*vy-py*vx)/c3, px/c2, py/c2;
+  // check division by zero
+  if (fabs(c1) < 0.0001) {
+    cout << "CalculateJacobian () - Error - Division by Zero" << endl;
+    return Hj;
+  }
   
+  // compute the Jacobian matrix
+  Hj << (px/c2), (py/c2), 0, 0,
+        -(py/c1), (px/c1), 0, 0,
+        py*(vx*py - vy*px)/c3, px*(px*vy - py*vx)/c3, px/c2, py/c2;
+
   return Hj;
 }
