@@ -24,7 +24,6 @@ FusionEKF::FusionEKF() {
   ekf_.x_ = VectorXd(4);
   
   // state covariance matrix P
-  cout << "Initializing state covariance matrix P in constructor... " << endl;
   ekf_.P_ = MatrixXd(4, 4);
   ekf_.P_ << 1, 0, 0, 0,
              0, 1, 0, 0,
