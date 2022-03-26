@@ -1,3 +1,38 @@
+# CarND -  Extended Kalman Filter Project
+Self-Driving Car Engineer Nanodegree Program<br><br>
+
+
+## Project summary
+
+by Atilla Özdemir, Student @ Udacity, Stuttgart (Germany) in March 2022
+<br>
+
+In this project I implemented a Kalman filter in C++ to estimate the state of a moving bicycle that travels around a vehicle.
+
+This project involves a simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases). The simulator provides the script simulated lidar and radar measurements of the bicycle. The script feeds back the measured estimation markers and RMSE (root mean squared error) values from its Kalman filter.
+
+All in all, I used a Kalman filter, lidar measurements and radar measurements to track the bicycle's position and velocity:
+
+![](images/EKF2.gif)<br><br>
+
+The gif above shows what the simulator looks like when a C++ script is using its Kalman filter to track the object. Lidar measurements are **red circles**, radar measurements are **blue circles** and estimation markers are **green triangles**.
+
+# Accuracy
+
+px, py, vx, vy output coordinates must have an RMSE <= [.11, .11, 0.52, 0.52] when using the file: "obj_pose-laser-radar-synthetic-input.txt which is the same data file the simulator uses for Dataset 1"
+The EKF accuracy was:
+
+Dataset 1 : RMSE <= [0.0974, 0.0855, 0.4517, 0.4404]
+
+
+The picture belows shows that code compiles without errors with cmake and make.
+
+[image1]: ./images/compile.JPG "Compile"
+
+![alt text][image1]
+
+## Original Readme by UDACITY:
+
 # Extended Kalman Filter Project Starter Code
 Self-Driving Car Engineer Nanodegree Program
 
